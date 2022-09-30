@@ -70,20 +70,23 @@ const userPost = async (req, res) => {
 };
 
 const userPut = (req, res) => {
-
-
-    const { name, pwd, google, email, ...rest } = req.body;
+    console.log(req.body);
+    email = req.body.email;
+    const _id = User.findById(email);
     
-    if (pwd) {
-        // Encrypt password
-        const salt = bcryptjs.genSaltSync();
-        rest.pwd = bcryptjs.hashSync(pwd, salt);
+    if (!_id) {
+        return res.status(400).json({
+            msg: 'User does not exist'
+        });
     }
+    console.log(_id);
+    const user = User.findByIdAndUpdate(_id, req.body, { new: true });
 
-    const user = users.findByIdAndUpdate(id, rest);
-    res.json({
+    res.status(200).json({
+        msg: 'put - api',
         user
     });
+
 
 };
 const userDelete = (req, res) => {
