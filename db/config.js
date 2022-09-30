@@ -1,16 +1,19 @@
+const { default: mongoose } = require("mongoose")
 const moongose=require("mongoose")
 
 
 const dbConnection=async()=>{
-    try{
+    try{    
+            // await  mongoose.createConnection(process.env.MONGO_CNN,{});
+            // console.log("DB online");
             await moongose.connect(process.env.MONGO_CNN,{
                 
             })
-            console.log("Conexión exitosa");
+            console.log("DB online");
     }
     catch (error){
-        console.log("error al iniciar la bd", error)
-        throw new Error("Error al iniciar la bd")
+        console.log("DB connection fail " ,error);
+        throw new Error("DB connection fail ");
     }
 
 }

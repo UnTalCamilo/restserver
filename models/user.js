@@ -1,26 +1,26 @@
 const {Schema,model}=require("mongoose")
 
 const userSchema=Schema({
-    nombre:{
+    name:{
         type:String,
-        required:[true,"es obligatorio"]
+        required:[true,"Name is required"]
     },
-    correo:{
+    email:{
         type:String,
-        required:[true,"introduzca su correo"],
+        required:[true,"Email is required"],
         unique:true
     },
-    contraseña:{
+    pwd:{
         type:String,
-        required:[true,"la contraseña es obligatoria"]
+        required:[true,"Password is required"]
     },
-    estado:{
+    status:{
         type:Boolean,
         required:false
     },
-    rol:{
+    role:{
         type:String,
-        required:[true,"es obligatorio"],
+        required:[true,"Role is required"],
         enum:['ADMIN','USER']
     },
     google:{
@@ -29,5 +29,9 @@ const userSchema=Schema({
     },
 })
 
+userSchema.methods.toJSON=function(){
+    const {__v,pwd,...user}=this.toObject()
+    return user // Save all the user data except the password
+};
 
 module.exports=model('User',userSchema)
